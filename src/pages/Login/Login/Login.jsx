@@ -2,31 +2,35 @@
 
 import { useContext } from "react";
 import { Button, Container, Form } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../../../providers/Authprovider";
 
 const Login = () => {
+  const { signIn } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+  console.log("login page location", location);
+  const from = location.state?.from?.pathname || "/category/0";
 
-    const {signIn} =useContext(AuthContext);
+  const handleLogin = (event) => {
+    event.preventDefault();
+    const form = event.target;
 
-    const handleLogin = event =>{
-        event.preventDefault();
-        const form = event.target;
-        
-        const email = form.email.value;
-        const password = form.password.value;
-    
-        console.log(email,password);
-    
-       signIn(email,password)
-        .then(result =>{
-            const createdUser = result.user;
-            console.log(createdUser);
-        })
-        .catch(error =>{
-            console.log(error);
-        })
-    }
+    const email = form.email.value;
+    const password = form.password.value;
+
+    console.log(email, password);
+
+    signIn(email, password)
+      .then((result) => {
+        const createdUser = result.user;
+        console.log(createdUser);
+        navigate(from, {replace: true});
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <Container className=" w-25 mx-auto mt-4">
