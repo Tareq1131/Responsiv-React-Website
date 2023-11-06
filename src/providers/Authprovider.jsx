@@ -1,26 +1,22 @@
 // import React from 'react';
 
-import {  createContext } from "react";
+import { createContext } from "react";
 import { getAuth } from "firebase/auth";
 import app from "../firease/firebase.config";
 
+export const AuthContext = createContext(null);
 
- export const AuthContext = createContext(null);
+const auth = getAuth(app);
+const Authprovider = ({ children }) => {
+  const user = null;
 
- const auth = getAuth(app);
-const Authprovider = ({children}) => {
-    const user = {displayName: 'Dvive'}
+  const authInfo = {
+    user,
+  };
 
-    const authInfo = {
-
-        user
-    }
-
-    return (
-        <AuthContext.Provider value={authInfo}>
-            {children}
-        </AuthContext.Provider>
-    );
+  return (
+    <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
+  );
 };
 
 export default Authprovider;
